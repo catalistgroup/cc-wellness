@@ -144,7 +144,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-inter text-sm text-forest hover:text-olive-sage transition-colors py-1"
+                className="font-inter text-sm text-forest hover:text-olive-sage transition-colors py-2"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}

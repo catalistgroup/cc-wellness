@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useCart } from "@/components/cart-context";
 import { Button } from "@/components/ui/button";
 
@@ -13,19 +14,30 @@ export function CartDrawer() {
     subtotal,
   } = useCart();
 
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      // Small delay so the transition plays on mount
+      requestAnimationFrame(() => setVisible(true));
+    } else {
+      setVisible(false);
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 bg-forest/30 z-50"
+        className={`fixed inset-0 bg-forest/30 z-50 transition-opacity duration-300 ${visible ? "opacity-100" : "opacity-0"}`}
         onClick={() => setIsOpen(false)}
         aria-hidden="true"
       />
 
       {/* Slide-in panel */}
-      <div className="fixed top-0 right-0 h-full w-full max-w-md bg-warm-white z-50 shadow-xl flex flex-col">
+      <div className={`fixed top-0 right-0 h-full w-full max-w-md bg-warm-white z-50 shadow-xl flex flex-col transition-transform duration-300 ease-out ${visible ? "translate-x-0" : "translate-x-full"}`}>
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-sage-mist">
           <h2 className="font-playfair text-xl text-forest lowercase">
@@ -34,7 +46,7 @@ export function CartDrawer() {
           <button
             type="button"
             onClick={() => setIsOpen(false)}
-            className="flex items-center justify-center w-8 h-8 text-forest hover:text-olive-sage transition-colors"
+            className="flex items-center justify-center w-10 h-10 text-forest hover:text-olive-sage transition-colors"
             aria-label="Close cart"
           >
             <svg
@@ -106,7 +118,7 @@ export function CartDrawer() {
                         onClick={() =>
                           updateQuantity(item.product.id, item.quantity - 1)
                         }
-                        className="w-7 h-7 flex items-center justify-center border border-sage-mist rounded text-forest hover:bg-light-sage transition-colors font-inter text-sm"
+                        className="w-8 h-8 flex items-center justify-center border border-sage-mist rounded text-forest hover:bg-light-sage transition-colors font-inter text-sm"
                         aria-label="Decrease quantity"
                       >
                         -
@@ -119,7 +131,7 @@ export function CartDrawer() {
                         onClick={() =>
                           updateQuantity(item.product.id, item.quantity + 1)
                         }
-                        className="w-7 h-7 flex items-center justify-center border border-sage-mist rounded text-forest hover:bg-light-sage transition-colors font-inter text-sm"
+                        className="w-8 h-8 flex items-center justify-center border border-sage-mist rounded text-forest hover:bg-light-sage transition-colors font-inter text-sm"
                         aria-label="Increase quantity"
                       >
                         +

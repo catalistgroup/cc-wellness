@@ -103,7 +103,7 @@ export default function CheckoutPage() {
                     />
                   </div>
                 </div>
-                <div className="w-1/2">
+                <div className="w-full sm:w-1/2">
                   <label className="font-inter text-sm text-olive-gray block mb-1.5">
                     Zip
                   </label>
